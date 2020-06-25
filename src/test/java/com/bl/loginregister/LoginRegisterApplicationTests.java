@@ -155,4 +155,18 @@ class LoginRegisterApplicationTests {
         MvcResult mvcResult = mockMvc.perform(accept).andReturn();
         Assert.assertEquals("Email Invalid",mvcResult.getRequest().getAttribute("error"));
     }
+
+    @Test
+    public void GivenUserDAO_WhenPasswordInvalid_ShouldReturnMessage() throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+        UserDAO user = new UserDAO();
+        user.setEmail("bkadam357@gmail.com");
+        user.setPassword("Bhavesh.357");
+        user.setRepeatPassword("Bhavesh.357");
+        Mockito.when(service.filter(user)).thenReturn("Password Invalid");
+        MockHttpServletRequestBuilder accept = MockMvcRequestBuilders.post("/register").
+                accept(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(user)).contentType(MediaType.APPLICATION_JSON);
+        MvcResult mvcResult = mockMvc.perform(accept).andReturn();
+        Assert.assertEquals("Password Invalid",mvcResult.getRequest().getAttribute("error"));
+    }
 }
