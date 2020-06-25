@@ -2,6 +2,7 @@ package com.bl.loginregister.controller;
 
 
 import com.bl.loginregister.model.User;
+import com.bl.loginregister.model.UserDAO;
 import com.bl.loginregister.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,12 +32,14 @@ public class UserController {
     @PostMapping("/login")
     public String printWelcome(@RequestBody User user, HttpServletRequest request){
         request.setAttribute("error",service.filter(user));
-        String result;
-        if (service.validate(user)) {
-            result = "welcome";
-        }else{
-            result = "login";
-        }
+        String result = service.validate(user) ? "welcome": "login";
+        return result;
+    }
+
+    @PostMapping("/register")
+    public String printLogin(@RequestBody UserDAO user, HttpServletRequest request){
+        boolean validate = service.validateRegister(user);
+        String result = validate ? "login": "register";
         return result;
     }
 }
