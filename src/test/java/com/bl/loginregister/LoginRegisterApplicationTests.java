@@ -64,4 +64,17 @@ class LoginRegisterApplicationTests {
         Assert.assertEquals("Enter Values",mvcResult.getRequest().getAttribute("error"));
     }
 
+    @Test
+    public void GivenAddressAndUser_WhenWrong_ShouldReturnMessage() throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+        User user = new User();
+        user.setEmail("Shivam@gmail.com");
+        user.setPassword("Shivam@357");
+        Mockito.when(service.filter(user)).thenReturn("Id password wrong");
+        MockHttpServletRequestBuilder accept = MockMvcRequestBuilders.post("/login").
+                accept(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(user)).contentType(MediaType.APPLICATION_JSON);
+        MvcResult mvcResult = mockMvc.perform(accept).andReturn();
+        Assert.assertEquals("Id password wrong",mvcResult.getRequest().getAttribute("error"));
+    }
+
 }
