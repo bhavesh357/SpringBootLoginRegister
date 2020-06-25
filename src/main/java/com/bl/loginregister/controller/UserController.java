@@ -32,14 +32,11 @@ public class UserController {
     @PostMapping("/login")
     public String printWelcome(@RequestBody User user, HttpServletRequest request){
         request.setAttribute("error",service.filter(user));
-        String result = service.validate(user) ? "welcome": "login";
-        return result;
+        return service.validate(user) ? "welcome": "login";
     }
 
     @PostMapping("/register")
     public String printLogin(@RequestBody UserDAO user, HttpServletRequest request){
-        boolean validate = service.validateRegister(user);
-        String result = validate ? "login": "register";
-        return result;
+        return service.validateRegister(user) ? "login": "register";
     }
 }
