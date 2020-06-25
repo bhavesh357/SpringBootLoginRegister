@@ -37,6 +37,7 @@ public class UserController {
 
     @PostMapping("/register")
     public String printLogin(@RequestBody UserDAO user, HttpServletRequest request){
+        request.setAttribute("error",service.filter(user));
         return service.validateRegister(user) ? "login": "register";
     }
 }

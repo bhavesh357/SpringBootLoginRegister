@@ -113,4 +113,20 @@ class LoginRegisterApplicationTests {
         MvcResult mvcResult = mockMvc.perform(accept).andReturn();
         Assert.assertEquals("/WEB-INF/register.jsp",mvcResult.getResponse().getForwardedUrl());
     }
+
+    @Test
+    public void GivenUserDAO_WhenBlank_ShouldReturnMessage() throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+        UserDAO user = new UserDAO();
+        user.setEmail("");
+        user.setPassword("");
+        user.setRepeatPassword("");
+        Mockito.when(service.filter(user)).thenReturn("Enter all Values");
+        MockHttpServletRequestBuilder accept = MockMvcRequestBuilders.post("/register").
+                accept(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(user)).contentType(MediaType.APPLICATION_JSON);
+        MvcResult mvcResult = mockMvc.perform(accept).andReturn();
+        Assert.assertEquals("Enter all Values",mvcResult.getRequest().getAttribute("error"));
+    }
+
+
 }

@@ -27,4 +27,8 @@ public class UserService {
         Optional<User> ogUser = repo.findById(user.getEmail());
         return user.getPassword().matches(ogUser.get().getPassword()) && user.getEmail().matches(ogUser.get().getEmail());
     }
+
+    public String filter(UserDAO user) {
+        return "";
+    }
 }
