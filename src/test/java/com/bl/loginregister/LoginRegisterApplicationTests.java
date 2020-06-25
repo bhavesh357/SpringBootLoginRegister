@@ -77,4 +77,12 @@ class LoginRegisterApplicationTests {
         Assert.assertEquals("Id password wrong",mvcResult.getRequest().getAttribute("error"));
     }
 
+    @Test
+    public void GivenAddress_ShouldReturnRegisterPage() throws Exception {
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/register").
+                accept(MediaType.ALL);
+        MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
+        Assert.assertEquals("/WEB-INF/register.jsp",mvcResult.getResponse().getForwardedUrl());
+    }
+
 }

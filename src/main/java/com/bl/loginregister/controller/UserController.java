@@ -23,6 +23,11 @@ public class UserController {
         return "login";
     }
 
+    @RequestMapping("/register")
+    public String printRegister(){
+        return "register";
+    }
+
     @PostMapping("/login")
     public String printWelcome(@RequestBody User user, HttpServletRequest request){
         request.setAttribute("error",service.filter(user));
