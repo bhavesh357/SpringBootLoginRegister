@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Controller
 public class UserController {
 
@@ -22,8 +24,14 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public String printWelcome(@RequestBody User user){
-        String result = service.validate(user) ? "welcome" : "login";
+    public String printWelcome(@RequestBody User user, HttpServletRequest request){
+        request.setAttribute("error",service.filter(user));
+        String result;
+        if (service.validate(user)) {
+            result = "welcome";
+        }else{
+            result = "login";
+        }
         return result;
     }
 }

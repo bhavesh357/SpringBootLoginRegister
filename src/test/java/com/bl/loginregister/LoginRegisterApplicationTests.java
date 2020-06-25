@@ -2,6 +2,7 @@ package com.bl.loginregister;
 
 import com.bl.loginregister.model.User;
 import com.bl.loginregister.service.UserService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
@@ -48,6 +49,19 @@ class LoginRegisterApplicationTests {
                 accept(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(user)).contentType(MediaType.APPLICATION_JSON);
         MvcResult mvcResult = mockMvc.perform(accept).andReturn();
         Assert.assertEquals("/WEB-INF/welcome.jsp",mvcResult.getResponse().getForwardedUrl());
+    }
+
+    @Test
+    public void GivenAddressAndUser_WhenBlank_ShouldReturnMessage() throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+        User user = new User();
+        user.setEmail("");
+        user.setPassword("");
+        Mockito.when(service.filter(user)).thenReturn("Enter Values");
+        MockHttpServletRequestBuilder accept = MockMvcRequestBuilders.post("/login").
+                accept(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(user)).contentType(MediaType.APPLICATION_JSON);
+        MvcResult mvcResult = mockMvc.perform(accept).andReturn();
+        Assert.assertEquals("Enter Values",mvcResult.getRequest().getAttribute("error"));
     }
 
 }
