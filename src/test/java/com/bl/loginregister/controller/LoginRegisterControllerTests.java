@@ -56,6 +56,19 @@ class LoginRegisterControllerTests {
     }
 
     @Test
+    public void GivenLoginPost_WhenProper_ShouldReturnPage() throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+        User user = new User();
+        user.setEmail("bkadam357@gmail.com");
+        user.setPassword("Bhavesh@357");
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("/login").
+                accept(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(user)).contentType(MediaType.APPLICATION_JSON);
+        Mockito.when(controller.printLogin(Mockito.any(User.class), Mockito.any(HttpServletRequest.class))).thenReturn("welcome");
+        MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
+        Assert.assertEquals("/WEB-INF/welcome.jsp",mvcResult.getResponse().getForwardedUrl());
+    }
+
+    @Test
     public void GivenRegister_ShouldReturnPage() throws Exception {
         Mockito.when(controller.printRegister()).thenReturn("register");
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/register").
@@ -63,6 +76,8 @@ class LoginRegisterControllerTests {
         MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
         Assert.assertEquals("/WEB-INF/register.jsp",mvcResult.getResponse().getForwardedUrl());
     }
+
+
 
 
 }
