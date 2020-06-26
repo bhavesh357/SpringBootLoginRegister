@@ -91,7 +91,18 @@ class LoginRegisterControllerTests {
         Assert.assertEquals("/WEB-INF/login.jsp",mvcResult.getResponse().getForwardedUrl());
     }
 
-
+    @Test
+    public void GivenRegisterPost_WhenImProper_ShouldReturnPage() throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+        UserDAO user = new UserDAO();
+        user.setEmail("bkadam357@gmail.com");
+        user.setPassword("Bhavesh@357");
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("/register").
+                accept(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(user)).contentType(MediaType.APPLICATION_JSON);
+        Mockito.when(controller.printRegister(Mockito.any(UserDAO.class), Mockito.any(HttpServletRequest.class))).thenReturn("register");
+        MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
+        Assert.assertEquals("/WEB-INF/register.jsp",mvcResult.getResponse().getForwardedUrl());
+    }
 
 
 }
