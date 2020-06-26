@@ -1,8 +1,7 @@
-package com.bl.loginregister;
+package com.bl.loginregister.service;
 
 import com.bl.loginregister.model.User;
 import com.bl.loginregister.model.UserDAO;
-import com.bl.loginregister.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
@@ -22,7 +21,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-class LoginRegisterApplicationTests {
+class LoginRegisterServiceTests {
 
     @Autowired
     private MockMvc mockMvc;
