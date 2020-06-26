@@ -2,6 +2,7 @@ package com.bl.loginregister.controller;
 
 
 import com.bl.loginregister.model.User;
+import com.bl.loginregister.model.UserDAO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
@@ -75,6 +76,19 @@ class LoginRegisterControllerTests {
                 accept(MediaType.ALL);
         MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
         Assert.assertEquals("/WEB-INF/register.jsp",mvcResult.getResponse().getForwardedUrl());
+    }
+
+    @Test
+    public void GivenRegisterPost_WhenProper_ShouldReturnPage() throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+        UserDAO user = new UserDAO();
+        user.setEmail("bkadam357@gmail.com");
+        user.setPassword("Bhavesh@357");
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("/register").
+                accept(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(user)).contentType(MediaType.APPLICATION_JSON);
+        Mockito.when(controller.printRegister(Mockito.any(UserDAO.class), Mockito.any(HttpServletRequest.class))).thenReturn("login");
+        MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
+        Assert.assertEquals("/WEB-INF/login.jsp",mvcResult.getResponse().getForwardedUrl());
     }
 
 
