@@ -34,6 +34,15 @@ class LoginRegisterControllerTests {
     @MockBean
     private UserController controller;
 
+
+    @Test
+    public void GivenWrong_ShouldReturnPage() throws Exception {
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/random").
+                accept(MediaType.ALL);
+        MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
+        Assert.assertEquals(404,mvcResult.getResponse().getStatus());
+    }
+
     @Test
     public void GivenLogin_ShouldReturnPage() throws Exception {
         Mockito.when(controller.printLogin()).thenReturn("login");
