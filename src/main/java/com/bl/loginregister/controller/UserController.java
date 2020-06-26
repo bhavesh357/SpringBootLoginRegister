@@ -18,22 +18,42 @@ public class UserController {
     @Autowired
     UserService service;
 
+    /**
+     * get mapping for login
+     * @return
+     */
     @RequestMapping("/login")
     public String printLogin(){
         return "login";
     }
 
+    /**
+     * get mapping for register
+     * @return
+     */
     @RequestMapping("/register")
     public String printRegister(){
         return "register";
     }
 
+    /**
+     * post mapping for login
+     * @param user
+     * @param request
+     * @return
+     */
     @PostMapping("/login")
     public String printWelcome(@RequestBody User user, HttpServletRequest request){
         request.setAttribute("error",service.filter(user));
         return service.validate(user) ? "welcome": "login";
     }
 
+    /**
+     * post mapping for register
+     * @param user
+     * @param request
+     * @return
+     */
     @PostMapping("/register")
     public String printLogin(@RequestBody UserDAO user, HttpServletRequest request){
         request.setAttribute("error",service.filter(user));

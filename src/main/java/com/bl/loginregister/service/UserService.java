@@ -14,20 +14,39 @@ public class UserService {
     @Autowired
     private UserRepository repo;
 
+    /**
+     * Method to validate if user exist in db
+     * @param user
+     * @return boolean
+     */
     public boolean validate(User user) {
         Optional<User> ogUser = repo.findById(user.getEmail());
         return user.getPassword().matches(ogUser.get().getPassword()) && user.getEmail().matches(ogUser.get().getEmail());
     }
 
+    /**
+     * Method to filter user
+     * @param user
+     * @return error message
+     */
     public String filter(User user) {
         return "";
     }
-
+    /**
+     * Method to validate if user exist in db
+     * @param user
+     * @return boolean
+     */
     public boolean validateRegister(UserDAO user) {
         Optional<User> ogUser = repo.findById(user.getEmail());
         return user.getPassword().matches(ogUser.get().getPassword()) && user.getEmail().matches(ogUser.get().getEmail());
     }
 
+    /**
+     * Method to filter and get error message
+     * @param user
+     * @return
+     */
     public String filter(UserDAO user) {
         return "";
     }
