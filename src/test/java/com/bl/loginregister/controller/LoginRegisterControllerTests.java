@@ -28,11 +28,20 @@ class LoginRegisterControllerTests {
     private UserController controller;
 
     @Test
-    public void GivenUser_ShouldReturnPage() throws Exception {
+    public void GivenLogin_ShouldReturnPage() throws Exception {
         Mockito.when(controller.printLogin()).thenReturn("login");
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/login").
                 accept(MediaType.ALL);
         MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
         Assert.assertEquals("/WEB-INF/login.jsp",mvcResult.getResponse().getForwardedUrl());
+    }
+
+    @Test
+    public void GivenRegister_ShouldReturnPage() throws Exception {
+        Mockito.when(controller.printLogin()).thenReturn("register");
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/register").
+                accept(MediaType.ALL);
+        MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
+        Assert.assertEquals("/WEB-INF/register.jsp",mvcResult.getResponse().getForwardedUrl());
     }
 }
