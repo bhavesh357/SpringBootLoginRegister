@@ -3,7 +3,6 @@ package com.bl.loginregister;
 import com.bl.loginregister.model.User;
 import com.bl.loginregister.model.UserDAO;
 import com.bl.loginregister.service.UserService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
