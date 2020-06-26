@@ -43,7 +43,7 @@ public class UserController {
      * @return
      */
     @PostMapping("/login")
-    public String printWelcome(@RequestBody User user, HttpServletRequest request){
+    public String printLogin(@RequestBody User user, HttpServletRequest request){
         request.setAttribute("error",service.filter(user));
         return service.validate(user) ? "welcome": "login";
     }
@@ -55,7 +55,7 @@ public class UserController {
      * @return
      */
     @PostMapping("/register")
-    public String printLogin(@RequestBody UserDAO user, HttpServletRequest request){
+    public String printRegister(@RequestBody UserDAO user, HttpServletRequest request){
         request.setAttribute("error",service.filter(user));
         return service.validateRegister(user) ? "login": "register";
     }
