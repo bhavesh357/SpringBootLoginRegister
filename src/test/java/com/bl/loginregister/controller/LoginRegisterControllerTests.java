@@ -63,7 +63,7 @@ class LoginRegisterControllerTests {
                 accept(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(user)).contentType(MediaType.APPLICATION_JSON);
         Mockito.when(controller.printLogin(Mockito.any(User.class),Mockito.any(HttpServletResponse.class))).thenReturn(null);
         MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
-        Assert.assertEquals(-1,mvcResult.getResponse().getStatus());
+        Assert.assertEquals("",mvcResult.getResponse().getContentAsString());
     }
 
     @Test
@@ -85,20 +85,7 @@ class LoginRegisterControllerTests {
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/register").
                 accept(MediaType.ALL);
         MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
-        Assert.assertEquals("/WEB-INF/register.jsp",mvcResult.getResponse().getForwardedUrl());
-    }
-
-    @Test
-    public void GivenRegisterPost_WhenProper_ShouldReturnPage() throws Exception {
-        ObjectMapper mapper = new ObjectMapper();
-        UserDAO user = new UserDAO();
-        user.setEmail("bkadam357@gmail.com");
-        user.setPassword("Bhavesh@357");
-        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("/register").
-                accept(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(user)).contentType(MediaType.APPLICATION_JSON);
-        Mockito.when(controller.printRegister(Mockito.any(UserDAO.class), Mockito.any(HttpServletRequest.class))).thenReturn("login");
-        MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
-        Assert.assertEquals("/WEB-INF/login.jsp",mvcResult.getResponse().getForwardedUrl());
+        Assert.assertEquals(200,mvcResult.getResponse().getStatus());
     }
 
     @Test
@@ -109,9 +96,26 @@ class LoginRegisterControllerTests {
         user.setPassword("Bhavesh@357");
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("/register").
                 accept(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(user)).contentType(MediaType.APPLICATION_JSON);
-        Mockito.when(controller.printRegister(Mockito.any(UserDAO.class), Mockito.any(HttpServletRequest.class))).thenReturn("register");
+        Mockito.when(controller.printRegister(Mockito.any(UserDAO.class), Mockito.any(HttpServletResponse.class))).thenReturn(null);
         MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
-        Assert.assertEquals("/WEB-INF/register.jsp",mvcResult.getResponse().getForwardedUrl());
+        Assert.assertEquals("",mvcResult.getResponse().getContentAsString());
+    }
+
+    @Test
+    public void GivenRegisterPost_WhenProper_ShouldReturnPage() throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+        UserDAO user = new UserDAO();
+        user.setEmail("bkadam357@gmail.com");
+        user.setPassword("Bhavesh@357");
+
+        User user1 = new User();
+        user1.setPassword(user.getPassword());
+        user1.setEmail(user.getEmail());
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("/register").
+                accept(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(user)).contentType(MediaType.APPLICATION_JSON);
+        Mockito.when(controller.printRegister(Mockito.any(UserDAO.class), Mockito.any(HttpServletResponse.class))).thenReturn(user1);
+        MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
+        Assert.assertEquals("{\"id\":null,\"email\":\"bkadam357@gmail.com\",\"password\":\"Bhavesh@357\"}",mvcResult.getResponse().getContentAsString());
     }
 
 

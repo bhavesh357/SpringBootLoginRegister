@@ -57,12 +57,16 @@ public class UserController {
     /**
      * post mapping for register
      * @param user
-     * @param request
+     * @param response
      * @return
      */
     @PostMapping("/register")
-    public String printRegister(@RequestBody UserDAO user, HttpServletRequest request){
-        request.setAttribute("error",service.filter(user));
-        return service.validateRegister(user) ? "login": "register";
+    public User printRegister(@RequestBody UserDAO user, HttpServletResponse response) throws IOException {
+        User validate = service.validateRegister(user);
+        if (validate!=null){
+            return validate;
+        }
+        response.sendError(-1);
+        return null;
     }
 }
