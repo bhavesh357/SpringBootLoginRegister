@@ -1,16 +1,28 @@
 package com.bl.loginregister.model;
 
 
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.util.Objects;
 
 @Entity
 public class User {
     private Integer id;
+
+    @NotNull
+    @NotEmpty
+    @Pattern(regexp = "[\\\\w\\\\d]{1,}[.\\-#!]?[\\\\w\\\\d]{1,}@[\\\\w\\\\d]{1,}.[a-z]{2,3}.?([a-z]{2})?")
     private String email;
+
+    @NotNull
+    @NotEmpty
+    @Pattern(regexp = "^(?=.*[A-Z])(?=.*[0-9])(?=.*[A-Za-z0-9@#!$%^&*()_-]{8,})[A-Za-z0-9]+?[@#!$%^&*()_-][A-Za-z0-9]{1,}?$")
     private String password;
 
     @Id

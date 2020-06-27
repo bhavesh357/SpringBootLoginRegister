@@ -2,6 +2,7 @@ package com.bl.loginregister.service;
 
 import com.bl.loginregister.model.User;
 import com.bl.loginregister.model.UserDAO;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
@@ -188,5 +189,17 @@ class LoginRegisterServiceTests {
                 accept(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(user)).contentType(MediaType.APPLICATION_JSON);
         MvcResult mvcResult = mockMvc.perform(accept).andReturn();
         Assert.assertEquals(-1,mvcResult.getResponse().getStatus());
+    }
+
+    @Test
+    void givenNullEmail_ShouldReturnMessage() throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+        UserDAO user = new UserDAO();
+        user.setPassword("bhavesh@357");
+        MockHttpServletRequestBuilder accept = MockMvcRequestBuilders.post("/login").
+                accept(MediaType.APPLICATION_JSON).content("{\"password\":\"Bhavesh@57\"}").contentType(MediaType.APPLICATION_JSON);
+        MvcResult mvcResult = mockMvc.perform(accept).andReturn();
+        Assert.assertEquals("/",mvcResult.getResponse().getErrorMessage());
+
     }
 }

@@ -5,7 +5,7 @@ import com.bl.loginregister.model.User;
 import com.bl.loginregister.model.UserDAO;
 import com.bl.loginregister.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.io.IOException;
 
 @RestController
@@ -20,6 +21,7 @@ public class UserController {
 
     @Autowired
     UserService service;
+    private UserDAO user;
 
     /**
      * get mapping for login
@@ -45,7 +47,7 @@ public class UserController {
      * @return
      */
     @PostMapping("/login")
-    public User printLogin(@RequestBody User user, HttpServletResponse response) throws IOException {
+    public User printLogin(@Valid @RequestBody User user, BindingResult result, HttpServletResponse response) throws IOException {
         User validate = service.validate(user);
         if (validate!=null){
             return validate;
@@ -61,7 +63,8 @@ public class UserController {
      * @return
      */
     @PostMapping("/register")
-    public User printRegister(@RequestBody UserDAO user, HttpServletResponse response) throws IOException {
+    public User printRegister(@Valid @RequestBody UserDAO user, HttpServletResponse response) throws IOException {
+        this.user = user;
         User validate = service.validateRegister(user);
         if (validate!=null){
             return validate;

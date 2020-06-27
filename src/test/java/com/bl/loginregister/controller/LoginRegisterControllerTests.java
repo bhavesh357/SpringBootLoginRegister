@@ -19,6 +19,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.validation.BindingResult;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -61,7 +62,7 @@ class LoginRegisterControllerTests {
         user.setPassword("Bhavesh@357");
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("/login").
                 accept(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(user)).contentType(MediaType.APPLICATION_JSON);
-        Mockito.when(controller.printLogin(Mockito.any(User.class),Mockito.any(HttpServletResponse.class))).thenReturn(null);
+        Mockito.when(controller.printLogin(Mockito.any(User.class),Mockito.any(BindingResult.class),Mockito.any(HttpServletResponse.class))).thenReturn(null);
         MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
         Assert.assertEquals("",mvcResult.getResponse().getContentAsString());
     }
@@ -74,7 +75,7 @@ class LoginRegisterControllerTests {
         user.setPassword("Bhavesh@357");
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("/login").
                 accept(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(user)).contentType(MediaType.APPLICATION_JSON);
-        Mockito.when(controller.printLogin(Mockito.any(User.class),Mockito.any(HttpServletResponse.class))).thenReturn(user);
+        Mockito.when(controller.printLogin(Mockito.any(User.class),Mockito.any(BindingResult.class),Mockito.any(HttpServletResponse.class))).thenReturn(user);
         MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
         Assert.assertEquals(200,mvcResult.getResponse().getStatus());
     }
