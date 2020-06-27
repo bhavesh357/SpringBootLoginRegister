@@ -13,7 +13,8 @@ public class User {
     private String email;
     private String password;
 
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Integer getId() {
         return id;
     }
@@ -21,8 +22,7 @@ public class User {
     public void setId(Integer id) {
         this.id = id;
     }
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     public String getEmail() {
         return email;
     }
