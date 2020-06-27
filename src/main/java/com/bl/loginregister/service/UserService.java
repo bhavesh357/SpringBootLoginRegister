@@ -19,9 +19,9 @@ public class UserService {
      * @param user
      * @return boolean
      */
-    public boolean validate(User user) {
-        Optional<User> ogUser = repo.findById(user.getEmail());
-        return user.getPassword().matches(ogUser.get().getPassword()) && user.getEmail().matches(ogUser.get().getEmail());
+    public User validate(User user) {
+        return repo.findAll().stream().filter(u -> u.getEmail().matches(user.getEmail()))
+                .filter(u ->u.getPassword().matches(user.getPassword())).findFirst().get();
     }
 
     /**
@@ -38,8 +38,7 @@ public class UserService {
      * @return boolean
      */
     public boolean validateRegister(UserDAO user) {
-        Optional<User> ogUser = repo.findById(user.getEmail());
-        return user.getPassword().matches(ogUser.get().getPassword()) && user.getEmail().matches(ogUser.get().getEmail());
+        return true;
     }
 
     /**

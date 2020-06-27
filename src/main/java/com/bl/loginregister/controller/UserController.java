@@ -9,10 +9,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 
-@Controller
+@RestController
 public class UserController {
 
     @Autowired
@@ -39,13 +40,11 @@ public class UserController {
     /**
      * post mapping for login
      * @param user
-     * @param request
      * @return
      */
     @PostMapping("/login")
-    public String printLogin(@RequestBody User user, HttpServletRequest request){
-        request.setAttribute("error",service.filter(user));
-        return service.validate(user) ? "welcome": "login";
+    public User printLogin(@RequestBody User user){
+        return service.validate(user);
     }
 
     /**

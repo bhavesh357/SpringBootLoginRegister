@@ -43,7 +43,7 @@ class LoginRegisterServiceTests {
         User user = new User();
         user.setEmail("bkadam357@gmail.com");
         user.setPassword("Bhavesh@357");
-        Mockito.when(service.validate(user)).thenReturn(true);
+        Mockito.when(service.validate(user)).thenReturn(Mockito.any(User.class));
         MockHttpServletRequestBuilder accept = MockMvcRequestBuilders.post("/login").
                 accept(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(user)).contentType(MediaType.APPLICATION_JSON);
         MvcResult mvcResult = mockMvc.perform(accept).andReturn();
