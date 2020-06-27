@@ -85,7 +85,7 @@ class LoginRegisterServiceTests {
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/register").
                 accept(MediaType.ALL);
         MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
-        Assert.assertEquals("/WEB-INF/register.jsp",mvcResult.getResponse().getForwardedUrl());
+        Assert.assertEquals("register",mvcResult.getResponse().getContentAsString());
     }
 
     @Test
@@ -95,11 +95,15 @@ class LoginRegisterServiceTests {
         user.setEmail("bkadam357@gmail.com");
         user.setPassword("Bhavesh@357");
         user.setRepeatPassword("Bhavesh@357");
-        Mockito.when(service.validateRegister(user)).thenReturn(Mockito.any());
+
+        User user1 = new User();
+        user1.setEmail("bkadam357@gmail.com");
+        user1.setPassword("Bhavesh@357");
+        Mockito.when(service.validateRegister(user)).thenReturn(user1);
         MockHttpServletRequestBuilder accept = MockMvcRequestBuilders.post("/register").
                 accept(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(user)).contentType(MediaType.APPLICATION_JSON);
         MvcResult mvcResult = mockMvc.perform(accept).andReturn();
-        Assert.assertEquals("/WEB-INF/login.jsp",mvcResult.getResponse().getForwardedUrl());
+        Assert.assertEquals("{\"id\":null,\"email\":\"bkadam357@gmail.com\",\"password\":\"Bhavesh@357\"}",mvcResult.getResponse().getContentAsString());
     }
 
     @Test
@@ -109,11 +113,11 @@ class LoginRegisterServiceTests {
         user.setEmail("bkadam357@gmail.com");
         user.setPassword("Bhavesh@357");
         user.setRepeatPassword("Bhavesh@357");
-        Mockito.when(service.validateRegister(user)).thenReturn(Mockito.any());
+        Mockito.when(service.validateRegister(user)).thenReturn(null);
         MockHttpServletRequestBuilder accept = MockMvcRequestBuilders.post("/register").
                 accept(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(user)).contentType(MediaType.APPLICATION_JSON);
         MvcResult mvcResult = mockMvc.perform(accept).andReturn();
-        Assert.assertEquals("/WEB-INF/register.jsp",mvcResult.getResponse().getForwardedUrl());
+        Assert.assertEquals("",mvcResult.getResponse().getContentAsString());
     }
 
     @Test
@@ -127,7 +131,7 @@ class LoginRegisterServiceTests {
         MockHttpServletRequestBuilder accept = MockMvcRequestBuilders.post("/register").
                 accept(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(user)).contentType(MediaType.APPLICATION_JSON);
         MvcResult mvcResult = mockMvc.perform(accept).andReturn();
-        Assert.assertEquals("Enter all Values",mvcResult.getRequest().getAttribute("error"));
+        Assert.assertEquals(-1,mvcResult.getResponse().getStatus());
     }
 
     @Test
@@ -141,7 +145,7 @@ class LoginRegisterServiceTests {
         MockHttpServletRequestBuilder accept = MockMvcRequestBuilders.post("/register").
                 accept(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(user)).contentType(MediaType.APPLICATION_JSON);
         MvcResult mvcResult = mockMvc.perform(accept).andReturn();
-        Assert.assertEquals("Already Registered",mvcResult.getRequest().getAttribute("error"));
+        Assert.assertEquals(-1,mvcResult.getResponse().getStatus());
     }
 
     @Test
@@ -155,7 +159,7 @@ class LoginRegisterServiceTests {
         MockHttpServletRequestBuilder accept = MockMvcRequestBuilders.post("/register").
                 accept(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(user)).contentType(MediaType.APPLICATION_JSON);
         MvcResult mvcResult = mockMvc.perform(accept).andReturn();
-        Assert.assertEquals("Email Invalid",mvcResult.getRequest().getAttribute("error"));
+        Assert.assertEquals(-1,mvcResult.getResponse().getStatus());
     }
 
     @Test
@@ -169,7 +173,7 @@ class LoginRegisterServiceTests {
         MockHttpServletRequestBuilder accept = MockMvcRequestBuilders.post("/register").
                 accept(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(user)).contentType(MediaType.APPLICATION_JSON);
         MvcResult mvcResult = mockMvc.perform(accept).andReturn();
-        Assert.assertEquals("Password Invalid",mvcResult.getRequest().getAttribute("error"));
+        Assert.assertEquals(-1,mvcResult.getResponse().getStatus());
     }
 
     @Test
@@ -183,6 +187,6 @@ class LoginRegisterServiceTests {
         MockHttpServletRequestBuilder accept = MockMvcRequestBuilders.post("/register").
                 accept(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(user)).contentType(MediaType.APPLICATION_JSON);
         MvcResult mvcResult = mockMvc.perform(accept).andReturn();
-        Assert.assertEquals("Password dont match",mvcResult.getRequest().getAttribute("error"));
+        Assert.assertEquals(-1,mvcResult.getResponse().getStatus());
     }
 }
