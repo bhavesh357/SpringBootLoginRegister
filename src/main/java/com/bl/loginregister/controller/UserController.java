@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @RestController
 public class UserController {
@@ -43,8 +45,13 @@ public class UserController {
      * @return
      */
     @PostMapping("/login")
-    public User printLogin(@RequestBody User user){
-        return service.validate(user);
+    public User printLogin(@RequestBody User user, HttpServletResponse response) throws IOException {
+        User validate = service.validate(user);
+        if (validate!=null){
+            return validate;
+        }
+        response.sendError(-1);
+        return null;
     }
 
     /**

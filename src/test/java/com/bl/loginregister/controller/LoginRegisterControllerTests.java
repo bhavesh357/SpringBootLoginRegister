@@ -50,7 +50,7 @@ class LoginRegisterControllerTests {
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/login").
                 accept(MediaType.ALL);
         MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
-        Assert.assertEquals("/WEB-INF/login.jsp",mvcResult.getResponse().getForwardedUrl());
+        Assert.assertEquals(200,mvcResult.getResponse().getStatus());
     }
 
     @Test
@@ -61,9 +61,9 @@ class LoginRegisterControllerTests {
         user.setPassword("Bhavesh@357");
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("/login").
                 accept(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(user)).contentType(MediaType.APPLICATION_JSON);
-        Mockito.when(controller.printLogin(user)).thenReturn(null);
+        Mockito.when(controller.printLogin(Mockito.any(User.class),Mockito.any(HttpServletResponse.class))).thenReturn(null);
         MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
-        Assert.assertEquals("/WEB-INF/login.jsp",mvcResult.getResponse().getForwardedUrl());
+        Assert.assertEquals(-1,mvcResult.getResponse().getStatus());
     }
 
     @Test
@@ -74,7 +74,7 @@ class LoginRegisterControllerTests {
         user.setPassword("Bhavesh@357");
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("/login").
                 accept(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(user)).contentType(MediaType.APPLICATION_JSON);
-        Mockito.when(controller.printLogin(user)).thenReturn(user);
+        Mockito.when(controller.printLogin(Mockito.any(User.class),Mockito.any(HttpServletResponse.class))).thenReturn(user);
         MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
         Assert.assertEquals(200,mvcResult.getResponse().getStatus());
     }

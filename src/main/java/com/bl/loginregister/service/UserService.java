@@ -6,6 +6,7 @@ import com.bl.loginregister.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -20,8 +21,12 @@ public class UserService {
      * @return boolean
      */
     public User validate(User user) {
-        return repo.findAll().stream().filter(u -> u.getEmail().matches(user.getEmail()))
+        try {
+            return repo.findAll().stream().filter(u -> u.getEmail().matches(user.getEmail()))
                 .filter(u ->u.getPassword().matches(user.getPassword())).findFirst().get();
+        }catch (NoSuchElementException e){
+            return null;
+        }
     }
 
     /**
