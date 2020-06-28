@@ -61,10 +61,10 @@ public class UserService {
      * @param user
      * @return
      */
-    public String filter(UserDAO user) {
+    public Boolean filter(UserDAO user) {
         if(user.getPassword().matches(user.getRepeatPassword())){
-            return "";
+            return false;
         }
-        return "Passwords should match";
+        return true;
     }
 }

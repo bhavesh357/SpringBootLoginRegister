@@ -128,7 +128,7 @@ class LoginRegisterServiceTests {
         user.setEmail("");
         user.setPassword("");
         user.setRepeatPassword("");
-        Mockito.when(service.filter(user)).thenReturn("Enter all Values");
+        Mockito.when(service.filter(user)).thenReturn(false);
         MockHttpServletRequestBuilder accept = MockMvcRequestBuilders.post("/register").
                 accept(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(user)).contentType(MediaType.APPLICATION_JSON);
         MvcResult mvcResult = mockMvc.perform(accept).andReturn();
@@ -142,7 +142,7 @@ class LoginRegisterServiceTests {
         user.setEmail("bkadam357@gmail.com");
         user.setPassword("Bhavesh@357");
         user.setRepeatPassword("Bhavesh@357");
-        Mockito.when(service.filter(user)).thenReturn("Already Registered");
+        Mockito.when(service.filter(user)).thenReturn(false);
         MockHttpServletRequestBuilder accept = MockMvcRequestBuilders.post("/register").
                 accept(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(user)).contentType(MediaType.APPLICATION_JSON);
         MvcResult mvcResult = mockMvc.perform(accept).andReturn();
@@ -156,7 +156,7 @@ class LoginRegisterServiceTests {
         user.setEmail("bkadam357.gmail.com");
         user.setPassword("Bhavesh@357");
         user.setRepeatPassword("Bhavesh@357");
-        Mockito.when(service.filter(user)).thenReturn("Email Invalid");
+        Mockito.when(service.filter(user)).thenReturn(false);
         MockHttpServletRequestBuilder accept = MockMvcRequestBuilders.post("/register").
                 accept(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(user)).contentType(MediaType.APPLICATION_JSON);
         MvcResult mvcResult = mockMvc.perform(accept).andReturn();
@@ -170,7 +170,7 @@ class LoginRegisterServiceTests {
         user.setEmail("bkadam357@gmail.com");
         user.setPassword("Bhavesh.357");
         user.setRepeatPassword("Bhavesh.357");
-        Mockito.when(service.filter(user)).thenReturn("Password Invalid");
+        Mockito.when(service.filter(user)).thenReturn(false);
         MockHttpServletRequestBuilder accept = MockMvcRequestBuilders.post("/register").
                 accept(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(user)).contentType(MediaType.APPLICATION_JSON);
         MvcResult mvcResult = mockMvc.perform(accept).andReturn();
@@ -184,7 +184,7 @@ class LoginRegisterServiceTests {
         user.setEmail("bkadam357@gmail.com");
         user.setPassword("bhavesh@357");
         user.setRepeatPassword("Bhavesh@357");
-        Mockito.when(service.filter(user)).thenReturn("Password dont match");
+        Mockito.when(service.filter(user)).thenReturn(false);
         MockHttpServletRequestBuilder accept = MockMvcRequestBuilders.post("/register").
                 accept(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(user)).contentType(MediaType.APPLICATION_JSON);
         MvcResult mvcResult = mockMvc.perform(accept).andReturn();
