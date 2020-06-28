@@ -6,8 +6,8 @@ import com.bl.loginregister.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Service
 public class UserService {
@@ -22,9 +22,11 @@ public class UserService {
      */
     public User validate(User user) {
         try {
-            return repo.findAll().stream().filter(u -> u.getEmail().matches(user.getEmail()))
-                .filter(u ->u.getPassword().matches(user.getPassword())).findFirst().get();
-        }catch (NoSuchElementException e){
+            List<User> users = repo.searchByQuery(user.getEmail(), user.getPassword());
+            return users.get(0);
+            //return repo.findAll().stream().filter(u -> u.getEmail().matches(user.getEmail()))
+                //.filter(u ->u.getPassword().matches(user.getPassword())).findFirst().get();
+        }catch (IndexOutOfBoundsException e){
             return null;
         }
     }

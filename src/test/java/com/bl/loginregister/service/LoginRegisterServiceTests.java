@@ -199,4 +199,5 @@ class LoginRegisterServiceTests {
         Assert.assertEquals("{\"email\":\"Enter Valid Email with 1 Capital 1 small 1 special character and 1 number\"}",mvcResult.getResponse().getContentAsString());
 
     }
+
 }
