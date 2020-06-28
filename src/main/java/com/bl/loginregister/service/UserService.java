@@ -62,6 +62,9 @@ public class UserService {
      * @return
      */
     public String filter(UserDAO user) {
-        return "";
+        if(user.getPassword().matches(user.getRepeatPassword())){
+            return "";
+        }
+        return "Passwords should match";
     }
 }

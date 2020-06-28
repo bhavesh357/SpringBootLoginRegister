@@ -67,11 +67,13 @@ public class UserController {
     @PostMapping("/register")
     public User printRegister(@Valid @RequestBody UserDAO user, HttpServletResponse response) throws IOException {
         this.user = user;
+        String error = service.filter(user);
+        response.sendError(-2,error);
         User validate = service.validateRegister(user);
         if (validate!=null){
             return validate;
         }
-        response.sendError(-1);
+        response.sendError(-1,"User already registered");
         return null;
     }
 

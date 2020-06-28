@@ -6,23 +6,16 @@ import java.util.Objects;
 
 public class UserDAO {
 
-    @NotNull
     @NotEmpty
-    @Email
-    @NotBlank
-    @Size(min=1)
+    @Pattern(regexp = "[\\w\\d]{1,}[.\\-#!]?[\\w\\d]{1,}@[\\w\\d]{1,}.[a-z]{2,3}.?([a-z]{2})?",message = "Enter Valid Email with 1 Capital 1 small 1 special character and 1 number")
     private String email;
 
-    @NotNull
     @NotEmpty
-    @NotBlank
-    @Size(min=1)
+    @Pattern(regexp = "^(?=.*[A-Z])(?=.*[0-9])(?=.*[A-Za-z0-9@#!$%^&*()_]{8,})[A-Za-z0-9]+?[@#!$%^&*()_][A-Za-z0-9]{1,}?$",message = "Enter valid password with one number one capital 1 small character and a special character")
     private String password;
 
-    @NotNull
     @NotEmpty
-    @NotBlank
-    @Size(min=1)
+    @Pattern(regexp = "^(?=.*[A-Z])(?=.*[0-9])(?=.*[A-Za-z0-9@#!$%^&*()_]{8,})[A-Za-z0-9]+?[@#!$%^&*()_][A-Za-z0-9]{1,}?$",message = "Enter valid password with one number one capital 1 small character and a special character")
     private String repeatPassword;
 
     public String getEmail() {
