@@ -65,7 +65,7 @@ class LoginRegisterServiceTests {
         MockHttpServletRequestBuilder accept = MockMvcRequestBuilders.post("/login").
                 accept(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(user)).contentType(MediaType.APPLICATION_JSON);
         MvcResult mvcResult = mockMvc.perform(accept).andReturn();
-        Assert.assertEquals(-1,mvcResult.getResponse().getStatus());
+        Assert.assertEquals("{\"password\":\"Enter valid password with one number one capital 1 small character and a special character\",\"email\":\"Enter Valid Email with 1 Capital 1 small 1 special character and 1 number\"}",mvcResult.getResponse().getContentAsString());
     }
 
     @Test
@@ -118,7 +118,7 @@ class LoginRegisterServiceTests {
         MockHttpServletRequestBuilder accept = MockMvcRequestBuilders.post("/register").
                 accept(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(user)).contentType(MediaType.APPLICATION_JSON);
         MvcResult mvcResult = mockMvc.perform(accept).andReturn();
-        Assert.assertEquals("",mvcResult.getResponse().getContentAsString());
+        Assert.assertEquals("{\"id\":null,\"email\":null,\"password\":null}",mvcResult.getResponse().getContentAsString());
     }
 
     @Test
@@ -132,7 +132,7 @@ class LoginRegisterServiceTests {
         MockHttpServletRequestBuilder accept = MockMvcRequestBuilders.post("/register").
                 accept(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(user)).contentType(MediaType.APPLICATION_JSON);
         MvcResult mvcResult = mockMvc.perform(accept).andReturn();
-        Assert.assertEquals(-1,mvcResult.getResponse().getStatus());
+        Assert.assertEquals("{\"password\":\"Enter valid password with one number one capital 1 small character and a special character\",\"repeatPassword\":\"Enter valid password with one number one capital 1 small character and a special character\",\"email\":\"Enter Valid Email with 1 Capital 1 small 1 special character and 1 number\"}",mvcResult.getResponse().getContentAsString());
     }
 
     @Test
@@ -160,7 +160,7 @@ class LoginRegisterServiceTests {
         MockHttpServletRequestBuilder accept = MockMvcRequestBuilders.post("/register").
                 accept(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(user)).contentType(MediaType.APPLICATION_JSON);
         MvcResult mvcResult = mockMvc.perform(accept).andReturn();
-        Assert.assertEquals(-1,mvcResult.getResponse().getStatus());
+        Assert.assertEquals("{\"email\":\"Enter Valid Email with 1 Capital 1 small 1 special character and 1 number\"}",mvcResult.getResponse().getContentAsString());
     }
 
     @Test
@@ -174,7 +174,7 @@ class LoginRegisterServiceTests {
         MockHttpServletRequestBuilder accept = MockMvcRequestBuilders.post("/register").
                 accept(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(user)).contentType(MediaType.APPLICATION_JSON);
         MvcResult mvcResult = mockMvc.perform(accept).andReturn();
-        Assert.assertEquals(-1,mvcResult.getResponse().getStatus());
+        Assert.assertEquals("{\"password\":\"Enter valid password with one number one capital 1 small character and a special character\",\"repeatPassword\":\"Enter valid password with one number one capital 1 small character and a special character\"}",mvcResult.getResponse().getContentAsString());
     }
 
     @Test
@@ -188,7 +188,7 @@ class LoginRegisterServiceTests {
         MockHttpServletRequestBuilder accept = MockMvcRequestBuilders.post("/register").
                 accept(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(user)).contentType(MediaType.APPLICATION_JSON);
         MvcResult mvcResult = mockMvc.perform(accept).andReturn();
-        Assert.assertEquals(-1,mvcResult.getResponse().getStatus());
+        Assert.assertEquals("{\"password\":\"Enter valid password with one number one capital 1 small character and a special character\"}",mvcResult.getResponse().getContentAsString());
     }
 
     @Test
@@ -196,7 +196,7 @@ class LoginRegisterServiceTests {
         MockHttpServletRequestBuilder accept = MockMvcRequestBuilders.post("/login").
                 accept(MediaType.APPLICATION_JSON_VALUE).content("{\"email\":\"\",\"password\":\"Bhavesh@57\"}").contentType(MediaType.APPLICATION_JSON_VALUE);
         MvcResult mvcResult = mockMvc.perform(accept).andReturn();
-        Assert.assertEquals("/",mvcResult.getResponse().getErrorMessage());
+        Assert.assertEquals("{\"email\":\"Enter Valid Email with 1 Capital 1 small 1 special character and 1 number\"}",mvcResult.getResponse().getContentAsString());
 
     }
 }
