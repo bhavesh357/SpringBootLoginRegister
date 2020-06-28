@@ -5,16 +5,18 @@ import com.bl.loginregister.model.User;
 import com.bl.loginregister.model.UserDAO;
 import com.bl.loginregister.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 public class UserController {
@@ -47,7 +49,7 @@ public class UserController {
      * @return
      */
     @PostMapping("/login")
-    public User printLogin(@RequestBody @Valid User user, BindingResult result, HttpServletResponse response) throws IOException {
+    public User printLogin(@Valid @RequestBody User user, HttpServletResponse response) throws IOException {
         User validate = service.validate(user);
         if (validate!=null){
             return validate;
@@ -71,5 +73,18 @@ public class UserController {
         }
         response.sendError(-1);
         return null;
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public Map<String, String> handleValidationExceptions(
+            MethodArgumentNotValidException ex) {
+        Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult().getAllErrors().forEach((error) -> {
+            String fieldName = ((FieldError) error).getField();
+            String errorMessage = error.getDefaultMessage();
+            errors.put(fieldName, errorMessage);
+        });
+        return errors;
     }
 }

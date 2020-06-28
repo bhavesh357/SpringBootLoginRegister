@@ -10,16 +10,19 @@ public class UserDAO {
     @NotEmpty
     @Email
     @NotBlank
+    @Size(min=1)
     private String email;
 
     @NotNull
     @NotEmpty
     @NotBlank
+    @Size(min=1)
     private String password;
 
     @NotNull
     @NotEmpty
     @NotBlank
+    @Size(min=1)
     private String repeatPassword;
 
     public String getEmail() {

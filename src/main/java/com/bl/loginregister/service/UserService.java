@@ -45,7 +45,7 @@ public class UserService {
     public User validateRegister(UserDAO user) {
         try {
             repo.findAll().stream().filter(u -> u.getEmail().matches(user.getEmail())).findFirst().get();
-            return null;
+
         }catch (NoSuchElementException e){
             User user1 = new User();
             user1.setEmail(user.getEmail());
@@ -53,6 +53,7 @@ public class UserService {
             repo.save(user1);
             return user1;
         }
+        return null;
     }
 
     /**

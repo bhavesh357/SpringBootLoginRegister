@@ -193,11 +193,8 @@ class LoginRegisterServiceTests {
 
     @Test
     void givenNullEmail_ShouldReturnMessage() throws Exception {
-        ObjectMapper mapper = new ObjectMapper();
-        UserDAO user = new UserDAO();
-        user.setPassword("bhavesh@357");
         MockHttpServletRequestBuilder accept = MockMvcRequestBuilders.post("/login").
-                accept(MediaType.APPLICATION_JSON).content("{\"password\":\"Bhavesh@57\"}").contentType(MediaType.APPLICATION_JSON);
+                accept(MediaType.APPLICATION_JSON_VALUE).content("{\"email\":\"\",\"password\":\"Bhavesh@57\"}").contentType(MediaType.APPLICATION_JSON_VALUE);
         MvcResult mvcResult = mockMvc.perform(accept).andReturn();
         Assert.assertEquals("/",mvcResult.getResponse().getErrorMessage());
 
