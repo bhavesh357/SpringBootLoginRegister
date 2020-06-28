@@ -1,11 +1,7 @@
 package com.bl.loginregister.model;
 
-import org.springframework.lang.NonNull;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.*;
 import java.util.Objects;
 
 public class UserDAO {
@@ -13,14 +9,17 @@ public class UserDAO {
     @NotNull
     @NotEmpty
     @Email
+    @NotBlank
     private String email;
 
     @NotNull
     @NotEmpty
+    @NotBlank
     private String password;
 
     @NotNull
     @NotEmpty
+    @NotBlank
     private String repeatPassword;
 
     public String getEmail() {

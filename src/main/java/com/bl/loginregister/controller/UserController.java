@@ -47,7 +47,7 @@ public class UserController {
      * @return
      */
     @PostMapping("/login")
-    public User printLogin(@Valid @RequestBody User user, BindingResult result, HttpServletResponse response) throws IOException {
+    public User printLogin(@RequestBody @Valid User user, BindingResult result, HttpServletResponse response) throws IOException {
         User validate = service.validate(user);
         if (validate!=null){
             return validate;
