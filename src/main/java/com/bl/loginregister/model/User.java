@@ -2,11 +2,13 @@ package com.bl.loginregister.model;
 
 
 
+import com.bl.loginregister.util.UserTime;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.validation.constraints.*;
+import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
@@ -15,7 +17,21 @@ public class User {
 
     private String email;
 
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
     private String password;
+
+    private String time;
+
+    public User() {
+        time= UserTime.getTimeStamp();
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

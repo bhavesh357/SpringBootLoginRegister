@@ -45,7 +45,8 @@ public class UserService {
      * @return boolean
      */
     public User validateRegister(UserDAO user) {
-        if(repo.ifExist(user.getEmail()).isEmpty()){User user1 = new User();
+        if(repo.ifExist(user.getEmail()).isEmpty()){
+            User user1 = new User();
             user1.setEmail(user.getEmail());
             user1.setPassword(user.getPassword());
             repo.save(user1);

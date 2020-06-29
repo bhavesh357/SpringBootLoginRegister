@@ -62,7 +62,7 @@ class LoginRegisterControllerTests {
         user.setPassword("Bhavesh@357");
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("/login").
                 accept(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(user)).contentType(MediaType.APPLICATION_JSON);
-        Mockito.when(controller.printLogin(Mockito.any(UserDAO.class),Mockito.any(HttpServletResponse.class))).thenReturn(user);
+        Mockito.when(controller.printLogin(Mockito.any(UserDAO.class),Mockito.any(HttpServletResponse.class))).thenReturn(Mockito.any());
         MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
         Assert.assertEquals("",mvcResult.getResponse().getContentAsString());
     }
