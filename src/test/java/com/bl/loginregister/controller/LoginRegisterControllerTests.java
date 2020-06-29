@@ -8,24 +8,17 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.validation.BindingResult;
-
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -64,9 +57,9 @@ class LoginRegisterControllerTests {
         user.setPassword("Bhavesh@357");
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("/login").
                 accept(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(user)).contentType(MediaType.APPLICATION_JSON);
-        Mockito.when(controller.printLogin(Mockito.any(UserDAO.class))).thenReturn(new Response(100,"Successful", null));
+        Mockito.when(controller.printLogin(Mockito.any(UserDAO.class))).thenReturn(new Response(100,"Failed", null));
         MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
-        Assert.assertEquals("{\"statusCode\":100,\"message\":\"Successful\",\"object\":null}",mvcResult.getResponse().getContentAsString());
+        Assert.assertEquals("{\"statusCode\":100,\"message\":\"Failed\",\"object\":null}",mvcResult.getResponse().getContentAsString());
     }
 
     @Test
@@ -99,9 +92,9 @@ class LoginRegisterControllerTests {
         user.setPassword("Bhavesh@357");
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("/register").
                 accept(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(user)).contentType(MediaType.APPLICATION_JSON);
-        Mockito.when(controller.printRegister(Mockito.any(UserDAO.class))).thenReturn(new Response(-1,"Successful",null));
+        Mockito.when(controller.printRegister(Mockito.any(UserDAO.class))).thenReturn(new Response(-1,"Failed",null));
         MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
-        Assert.assertEquals("{\"statusCode\":-1,\"message\":\"Successful\",\"object\":null}",mvcResult.getResponse().getContentAsString());
+        Assert.assertEquals("{\"statusCode\":-1,\"message\":\"Failed\",\"object\":null}",mvcResult.getResponse().getContentAsString());
     }
 
     @Test

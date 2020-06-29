@@ -2,7 +2,6 @@ package com.bl.loginregister.service;
 
 import com.bl.loginregister.model.User;
 import com.bl.loginregister.model.UserDAO;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
@@ -35,7 +34,7 @@ class LoginRegisterServiceTests {
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/login").
                 accept(MediaType.ALL);
         MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
-        Assert.assertEquals("login",mvcResult.getResponse().getContentAsString());
+        Assert.assertEquals("{\"statusCode\":100,\"message\":\"Successful\",\"object\":\"login\"}",mvcResult.getResponse().getContentAsString());
     }
 
     @Test
@@ -52,7 +51,7 @@ class LoginRegisterServiceTests {
         MockHttpServletRequestBuilder accept = MockMvcRequestBuilders.post("/login").
                 accept(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(user)).contentType(MediaType.APPLICATION_JSON);
         MvcResult mvcResult = mockMvc.perform(accept).andReturn();
-        Assert.assertEquals(new ObjectMapper().writeValueAsString(user),mvcResult.getResponse().getContentAsString());
+        Assert.assertEquals(200,mvcResult.getResponse().getStatus());
     }
 
     @Test
@@ -65,7 +64,7 @@ class LoginRegisterServiceTests {
         MockHttpServletRequestBuilder accept = MockMvcRequestBuilders.post("/login").
                 accept(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(user)).contentType(MediaType.APPLICATION_JSON);
         MvcResult mvcResult = mockMvc.perform(accept).andReturn();
-        Assert.assertEquals("{\"password\":\"Enter valid password with one number one capital 1 small character and a special character\",\"email\":\"Enter Valid Email with 1 Capital 1 small 1 special character and 1 number\"}",mvcResult.getResponse().getContentAsString());
+        Assert.assertEquals(400,mvcResult.getResponse().getStatus());
     }
 
     @Test
@@ -78,7 +77,7 @@ class LoginRegisterServiceTests {
         MockHttpServletRequestBuilder accept = MockMvcRequestBuilders.post("/login").
                 accept(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(user)).contentType(MediaType.APPLICATION_JSON);
         MvcResult mvcResult = mockMvc.perform(accept).andReturn();
-        Assert.assertEquals(-1,mvcResult.getResponse().getStatus());
+        Assert.assertEquals("{\"statusCode\":-1,\"message\":\"Failed\",\"object\":null}",mvcResult.getResponse().getContentAsString());
     }
 
     @Test
@@ -86,7 +85,7 @@ class LoginRegisterServiceTests {
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/register").
                 accept(MediaType.ALL);
         MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
-        Assert.assertEquals("register",mvcResult.getResponse().getContentAsString());
+        Assert.assertEquals("{\"statusCode\":100,\"message\":\"Successful\",\"object\":\"register\"}",mvcResult.getResponse().getContentAsString());
     }
 
     @Test
@@ -103,7 +102,7 @@ class LoginRegisterServiceTests {
         MockHttpServletRequestBuilder accept = MockMvcRequestBuilders.post("/register").
                 accept(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(user)).contentType(MediaType.APPLICATION_JSON);
         MvcResult mvcResult = mockMvc.perform(accept).andReturn();
-        Assert.assertEquals("{\"id\":null,\"email\":\"bkadam357@gmail.com\",\"password\":\"Bhavesh@357\"}",mvcResult.getResponse().getContentAsString());
+        Assert.assertEquals(200,mvcResult.getResponse().getStatus());
     }
 
     @Test
@@ -116,7 +115,7 @@ class LoginRegisterServiceTests {
         MockHttpServletRequestBuilder accept = MockMvcRequestBuilders.post("/register").
                 accept(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(user)).contentType(MediaType.APPLICATION_JSON);
         MvcResult mvcResult = mockMvc.perform(accept).andReturn();
-        Assert.assertEquals("{\"id\":null,\"email\":null,\"password\":null}",mvcResult.getResponse().getContentAsString());
+        Assert.assertEquals("{\"statusCode\":-1,\"message\":\"Failed\",\"object\":null}",mvcResult.getResponse().getContentAsString());
     }
 
     @Test
@@ -129,7 +128,7 @@ class LoginRegisterServiceTests {
         MockHttpServletRequestBuilder accept = MockMvcRequestBuilders.post("/register").
                 accept(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(user)).contentType(MediaType.APPLICATION_JSON);
         MvcResult mvcResult = mockMvc.perform(accept).andReturn();
-        Assert.assertEquals(-1,mvcResult.getResponse().getStatus());
+        Assert.assertEquals("{\"statusCode\":-1,\"message\":\"Failed\",\"object\":null}",mvcResult.getResponse().getContentAsString());
     }
 
 
