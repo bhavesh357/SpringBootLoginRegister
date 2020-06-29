@@ -1,6 +1,7 @@
 package com.bl.loginregister.controller;
 
 
+import com.bl.loginregister.model.Response;
 import com.bl.loginregister.model.User;
 import com.bl.loginregister.model.UserDAO;
 import com.bl.loginregister.service.UserService;
@@ -28,8 +29,8 @@ public class UserController {
      * @return
      */
     @RequestMapping("/login")
-    public String printLogin(){
-        return "login";
+    public Response printLogin(){
+        return new Response(100,"Successful", "login");
     }
 
     /**
@@ -37,8 +38,8 @@ public class UserController {
      * @return
      */
     @RequestMapping("/register")
-    public String printRegister(){
-        return "register";
+    public Response printRegister(){
+        return new Response(100,"Successful", "register");
     }
 
     /**
@@ -47,13 +48,11 @@ public class UserController {
      * @return
      */
     @PostMapping("/login")
-    public User printLogin(@Valid @RequestBody UserDAO user, HttpServletResponse response) throws IOException {
+    public Response printLogin(@Valid @RequestBody UserDAO user) throws IOException {
         User validate = service.validate(user);
-        if (validate!=null){
-            return validate;
-        }
-        response.sendError(-1);
-        return null;
+        return validate!= null ?
+                new Response(100,"Successful",validate):
+                    new Response(-1,"Successful",null);
     }
 
     /**
@@ -63,14 +62,12 @@ public class UserController {
      * @return
      */
     @PostMapping("/register")
-    public User printRegister(@Valid @RequestBody UserDAO user, HttpServletResponse response) throws IOException {
-        User user1 = new User();
+    public Response printRegister(@Valid @RequestBody UserDAO user, HttpServletResponse response) throws IOException {
         User validate = service.validateRegister(user);
-        if (validate!=null){
-            return validate;
-        }
-        response.sendError(-1);
-        return user1;
+        return validate!= null ?
+                new Response(100,"Successful",validate):
+                    new Response(-1,"Successful",null);
+
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
