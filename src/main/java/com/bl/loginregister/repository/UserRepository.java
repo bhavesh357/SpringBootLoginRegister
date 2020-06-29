@@ -16,5 +16,5 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     public List<User> searchByQuery(@Param("email") String email, @Param("password") String password);
 
     @Query(value = "SELECT * FROM user WHERE email LIKE (concat('%',:email,'%'))", nativeQuery = true)
-    public List<User> ifExist();
+    public List<User> ifExist(@Param("email") String email);
 }

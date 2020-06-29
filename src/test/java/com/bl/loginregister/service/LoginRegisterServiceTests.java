@@ -41,7 +41,7 @@ class LoginRegisterServiceTests {
     @Test
     public void GivenUser_WhenProper_ShouldReturnPage() throws Exception {
         ObjectMapper mapper = new ObjectMapper();
-        User user = new User();
+        UserDAO user = new UserDAO();
         user.setEmail("bkadam357@gmail.com");
         user.setPassword("Bhavesh@357");
 
@@ -95,7 +95,6 @@ class LoginRegisterServiceTests {
         UserDAO user = new UserDAO();
         user.setEmail("bkadam357@gmail.com");
         user.setPassword("Bhavesh@357");
-        user.setRepeatPassword("Bhavesh@357");
 
         User user1 = new User();
         user1.setEmail("bkadam357@gmail.com");
@@ -113,7 +112,6 @@ class LoginRegisterServiceTests {
         UserDAO user = new UserDAO();
         user.setEmail("bkadam357@gmail.com");
         user.setPassword("Bhavesh@357");
-        user.setRepeatPassword("Bhavesh@357");
         Mockito.when(service.validateRegister(user)).thenReturn(null);
         MockHttpServletRequestBuilder accept = MockMvcRequestBuilders.post("/register").
                 accept(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(user)).contentType(MediaType.APPLICATION_JSON);
@@ -122,74 +120,18 @@ class LoginRegisterServiceTests {
     }
 
     @Test
-    public void GivenUserDAO_WhenBlank_ShouldReturnMessage() throws Exception {
-        ObjectMapper mapper = new ObjectMapper();
-        UserDAO user = new UserDAO();
-        user.setEmail("");
-        user.setPassword("");
-        user.setRepeatPassword("");
-        Mockito.when(service.filter(user)).thenReturn(false);
-        MockHttpServletRequestBuilder accept = MockMvcRequestBuilders.post("/register").
-                accept(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(user)).contentType(MediaType.APPLICATION_JSON);
-        MvcResult mvcResult = mockMvc.perform(accept).andReturn();
-        Assert.assertEquals("{\"password\":\"Enter valid password with one number one capital 1 small character and a special character\",\"repeatPassword\":\"Enter valid password with one number one capital 1 small character and a special character\",\"email\":\"Enter Valid Email with 1 Capital 1 small 1 special character and 1 number\"}",mvcResult.getResponse().getContentAsString());
-    }
-
-    @Test
     public void GivenUserDAO_WhenAlreadyRegistered_ShouldReturnMessage() throws Exception {
         ObjectMapper mapper = new ObjectMapper();
         UserDAO user = new UserDAO();
         user.setEmail("bkadam357@gmail.com");
         user.setPassword("Bhavesh@357");
-        user.setRepeatPassword("Bhavesh@357");
-        Mockito.when(service.filter(user)).thenReturn(false);
+        Mockito.when(service.validateRegister(user)).thenReturn(null);
         MockHttpServletRequestBuilder accept = MockMvcRequestBuilders.post("/register").
                 accept(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(user)).contentType(MediaType.APPLICATION_JSON);
         MvcResult mvcResult = mockMvc.perform(accept).andReturn();
         Assert.assertEquals(-1,mvcResult.getResponse().getStatus());
     }
 
-    @Test
-    public void GivenUserDAO_WhenEmailInvalid_ShouldReturnMessage() throws Exception {
-        ObjectMapper mapper = new ObjectMapper();
-        UserDAO user = new UserDAO();
-        user.setEmail("bkadam357.gmail.com");
-        user.setPassword("Bhavesh@357");
-        user.setRepeatPassword("Bhavesh@357");
-        Mockito.when(service.filter(user)).thenReturn(false);
-        MockHttpServletRequestBuilder accept = MockMvcRequestBuilders.post("/register").
-                accept(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(user)).contentType(MediaType.APPLICATION_JSON);
-        MvcResult mvcResult = mockMvc.perform(accept).andReturn();
-        Assert.assertEquals("{\"email\":\"Enter Valid Email with 1 Capital 1 small 1 special character and 1 number\"}",mvcResult.getResponse().getContentAsString());
-    }
-
-    @Test
-    public void GivenUserDAO_WhenPasswordInvalid_ShouldReturnMessage() throws Exception {
-        ObjectMapper mapper = new ObjectMapper();
-        UserDAO user = new UserDAO();
-        user.setEmail("bkadam357@gmail.com");
-        user.setPassword("Bhavesh.357");
-        user.setRepeatPassword("Bhavesh.357");
-        Mockito.when(service.filter(user)).thenReturn(false);
-        MockHttpServletRequestBuilder accept = MockMvcRequestBuilders.post("/register").
-                accept(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(user)).contentType(MediaType.APPLICATION_JSON);
-        MvcResult mvcResult = mockMvc.perform(accept).andReturn();
-        Assert.assertEquals("{\"password\":\"Enter valid password with one number one capital 1 small character and a special character\",\"repeatPassword\":\"Enter valid password with one number one capital 1 small character and a special character\"}",mvcResult.getResponse().getContentAsString());
-    }
-
-    @Test
-    public void GivenUserDAO_WhenPasswordDifferent_ShouldReturnMessage() throws Exception {
-        ObjectMapper mapper = new ObjectMapper();
-        UserDAO user = new UserDAO();
-        user.setEmail("bkadam357@gmail.com");
-        user.setPassword("bhavesh@357");
-        user.setRepeatPassword("Bhavesh@357");
-        Mockito.when(service.filter(user)).thenReturn(false);
-        MockHttpServletRequestBuilder accept = MockMvcRequestBuilders.post("/register").
-                accept(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(user)).contentType(MediaType.APPLICATION_JSON);
-        MvcResult mvcResult = mockMvc.perform(accept).andReturn();
-        Assert.assertEquals("{\"password\":\"Enter valid password with one number one capital 1 small character and a special character\"}",mvcResult.getResponse().getContentAsString());
-    }
 
     @Test
     void givenNullEmail_ShouldReturnMessage() throws Exception {
