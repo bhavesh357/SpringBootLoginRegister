@@ -22,7 +22,6 @@ public class UserController {
 
     @Autowired
     UserService service;
-    private UserDAO user;
 
     /**
      * get mapping for login
@@ -48,7 +47,7 @@ public class UserController {
      * @return
      */
     @PostMapping("/login")
-    public User printLogin(@Valid @RequestBody User user, HttpServletResponse response) throws IOException {
+    public User printLogin(@Valid @RequestBody UserDAO user, HttpServletResponse response) throws IOException {
         User validate = service.validate(user);
         if (validate!=null){
             return validate;
@@ -66,10 +65,6 @@ public class UserController {
     @PostMapping("/register")
     public User printRegister(@Valid @RequestBody UserDAO user, HttpServletResponse response) throws IOException {
         User user1 = new User();
-        if(service.filter(user)){
-            user1.setPassword("passwords dont match");
-            return user1;
-        }
         User validate = service.validateRegister(user);
         if (validate!=null){
             return validate;

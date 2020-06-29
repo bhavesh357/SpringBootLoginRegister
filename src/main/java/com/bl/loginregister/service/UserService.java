@@ -20,7 +20,7 @@ public class UserService {
      * @param user
      * @return boolean
      */
-    public User validate(User user) {
+    public User validate(UserDAO user) {
         try {
             List<User> users = repo.searchByQuery(user.getEmail(), user.getPassword());
             return users.get(0);
@@ -54,15 +54,4 @@ public class UserService {
         return null;
     }
 
-    /**
-     * Method to filter and get error message
-     * @param user
-     * @return
-     */
-    public Boolean filter(UserDAO user) {
-        if(user.getPassword().matches(user.getRepeatPassword())){
-            return false;
-        }
-        return true;
-    }
 }

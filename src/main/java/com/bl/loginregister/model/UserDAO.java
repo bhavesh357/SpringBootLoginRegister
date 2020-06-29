@@ -14,10 +14,6 @@ public class UserDAO {
     @Pattern(regexp = "^(?=.*[A-Z])(?=.*[0-9])(?=.*[A-Za-z0-9@#!$%^&*()_]{8,})[A-Za-z0-9]+?[@#!$%^&*()_][A-Za-z0-9]{1,}?$",message = "Enter valid password with one number one capital 1 small character and a special character")
     private String password;
 
-    @NotEmpty
-    @Pattern(regexp = "^(?=.*[A-Z])(?=.*[0-9])(?=.*[A-Za-z0-9@#!$%^&*()_]{8,})[A-Za-z0-9]+?[@#!$%^&*()_][A-Za-z0-9]{1,}?$",message = "Enter valid password with one number one capital 1 small character and a special character")
-    private String repeatPassword;
-
     public String getEmail() {
         return email;
     }
@@ -34,26 +30,17 @@ public class UserDAO {
         this.password = password;
     }
 
-    public String getRepeatPassword() {
-        return repeatPassword;
-    }
-
-    public void setRepeatPassword(String repeatPassword) {
-        this.repeatPassword = repeatPassword;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserDAO userDAO = (UserDAO) o;
         return Objects.equals(email, userDAO.email) &&
-                Objects.equals(password, userDAO.password) &&
-                Objects.equals(repeatPassword, userDAO.repeatPassword);
+                Objects.equals(password, userDAO.password);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(email, password, repeatPassword);
+        return Objects.hash(email, password);
     }
 }
