@@ -1,5 +1,7 @@
 package com.bl.loginregister.model;
 
+import java.util.Objects;
+
 public class Response {
 
     private int statusCode;
@@ -8,6 +10,21 @@ public class Response {
 
     public String getMessage() {
         return message;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Response response = (Response) o;
+        return statusCode == response.statusCode &&
+                message.equals(response.message) &&
+                object.equals(response.object);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(statusCode, message, object);
     }
 
     public void setMessage(String message) {

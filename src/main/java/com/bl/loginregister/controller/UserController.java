@@ -52,21 +52,20 @@ public class UserController {
         User validate = service.validate(user);
         return validate!= null ?
                 new Response(100,"Successful",validate):
-                    new Response(-1,"Successful",null);
+                    new Response(-1,"Failed",null);
     }
 
     /**
      * post mapping for register
      * @param user
-     * @param response
      * @return
      */
     @PostMapping("/register")
-    public Response printRegister(@Valid @RequestBody UserDAO user, HttpServletResponse response) throws IOException {
+    public Response printRegister(@Valid @RequestBody UserDAO user) throws IOException {
         User validate = service.validateRegister(user);
         return validate!= null ?
                 new Response(100,"Successful",validate):
-                    new Response(-1,"Successful",null);
+                    new Response(-1,"Failed",null);
 
     }
 
